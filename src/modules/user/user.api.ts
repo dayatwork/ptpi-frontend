@@ -20,10 +20,19 @@ type ListUsersResponse = {
   data: User[];
 };
 
-export async function listUsers() {
+type ListUsersProps = {
+  search: string;
+};
+
+export async function listUsers(props?: ListUsersProps) {
   const users = await axios
     .get<ListUsersResponse>(`${import.meta.env.VITE_API_URL}/api/users`, {
       withCredentials: true,
+      params: props?.search
+        ? {
+            q: props.search,
+          }
+        : undefined,
     })
     .then((r) => r.data.data);
 

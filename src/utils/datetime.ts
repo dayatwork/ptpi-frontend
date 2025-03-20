@@ -35,3 +35,15 @@ export const getTotalDays = ({
 }) => {
   return differenceInCalendarDays(new Date(endDate), new Date(startDate)) + 1;
 };
+
+export const isDateInRange = ({
+  date,
+  from,
+  to,
+}: {
+  date: Date | string;
+  from: Date | string;
+  to: Date | string;
+}) => {
+  return new Date(date) >= new Date(from) && new Date(date) <= new Date(to);
+};

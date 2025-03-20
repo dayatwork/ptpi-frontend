@@ -1,3 +1,31 @@
+import { CSSProperties, useId, useMemo, useState } from "react";
+import {
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  RowData,
+  SortingState,
+  useReactTable,
+  FilterFn,
+} from "@tanstack/react-table";
+import {
+  ArrowLeftToLineIcon,
+  ArrowRightToLineIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Columns3Icon,
+  EllipsisIcon,
+  PenSquare,
+  PinOffIcon,
+  Plus,
+  SearchIcon,
+  Trash2,
+} from "lucide-react";
+import { RiMoreLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,39 +44,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Column,
-  ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  RowData,
-  SortingState,
-  useReactTable,
-} from "@tanstack/react-table";
-import {
-  ArrowLeftToLineIcon,
-  ArrowRight,
-  ArrowRightToLineIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Columns3Icon,
-  EllipsisIcon,
-  PenSquare,
-  PinOffIcon,
-  Plus,
-  SearchIcon,
-  Trash2,
-} from "lucide-react";
-import { CSSProperties, useId, useMemo, useState } from "react";
-import { Event } from "../event";
-import { FormatBadge } from "./format-badge";
-import { StatusBadge } from "./status-badge";
-import { RiMoreLine } from "@remixicon/react";
-import { EventsActionDialog, useEventsAction } from "./events-action";
-import { useEvents } from "../event.query";
+import { SeminarParticipant } from "../seminar-participant";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -59,11 +55,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FilterFn } from "@tanstack/react-table";
-import { validFormats, validStatuses } from "../event.validation";
-import { Link } from "@tanstack/react-router";
 import { Badge } from "@/components/ui/badge";
-import { getTotalDays } from "@/utils/datetime";
+import { useSeminarParticipants } from "../seminar-participant.query";
+import {
+  SeminarParticipantActionDialog,
+  useSeminarParticipantAction,
+} from "./seminar-participant-action";
+import {
+  validParticipantPaymentStatuses,
+  validParticipantStatuses,
+} from "../seminar-participant.validation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitialName } from "@/utils/string";
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -73,7 +76,7 @@ declare module "@tanstack/react-table" {
   }
 }
 
-type Item = Event;
+type Item = SeminarParticipant;
 
 // Helper function to compute pinning styles for columns
 const getPinningStyles = (column: Column<Item>): CSSProperties => {
@@ -97,21 +100,31 @@ const formatFilterFn: FilterFn<Item> = (
   return filterValue.includes(status);
 };
 
-export function EventsTable() {
-  // const [data, setData] = useState<Item[]>([]);
+export function SeminarParticipantsTable({ seminarId }: { seminarId: string }) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const { setOpen, createEvent, deleteEvent, editEvent, state } =
-    useEventsAction();
-  const { data } = useEvents();
+  const { setOpen, state, registerParticipant } = useSeminarParticipantAction({
+    seminarId,
+  });
+  const { data } = useSeminarParticipants({ seminarId });
 
   const columns: ColumnDef<Item>[] = useMemo(
     () => [
       {
-        header: "Title",
-        accessorKey: "title",
+        header: "Name",
+        accessorKey: "userName",
         cell: ({ row }) => (
-          <div className="truncate font-medium">{row.getValue("title")}</div>
+          <div className="truncate font-medium flex gap-2 items-center">
+            <Avatar>
+              <AvatarImage src={row.original.userAvatar ?? ""} />
+              <AvatarFallback className="bg-foreground text-background">
+                {getInitialName(row.original.userName)}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p>{row.getValue("userName")}</p>
+            </div>
+          </div>
         ),
         meta: {
           filterVariant: "text",
@@ -119,9 +132,9 @@ export function EventsTable() {
         enableHiding: false,
       },
       {
-        header: "Format",
-        accessorKey: "format",
-        cell: ({ row }) => <FormatBadge format={row.original.format} />,
+        header: "Status",
+        accessorKey: "status",
+        cell: ({ row }) => <Badge>{row.getValue("status")}</Badge>,
         enableResizing: false,
         size: 60,
         meta: {
@@ -130,71 +143,52 @@ export function EventsTable() {
         filterFn: formatFilterFn,
       },
       {
-        header: "Location",
-        accessorKey: "location",
-      },
-      {
-        header: "Start Date",
-        accessorKey: "startDate",
+        header: "Registered at",
+        accessorKey: "registeredAt",
         cell: ({ row }) => (
-          <time dateTime={row.original.startDate}>
-            {new Date(row.original.startDate).toLocaleString("en-US", {
+          <time dateTime={row.getValue("registeredAt")}>
+            {new Date(row.getValue("registeredAt")).toLocaleString("en-US", {
               dateStyle: "medium",
               timeStyle: "short",
             })}
           </time>
         ),
-        size: 90,
       },
       {
-        header: "End Date",
-        accessorKey: "endDate",
-        cell: ({ row }) => (
-          <time dateTime={row.original.endDate}>
-            {new Date(row.original.endDate).toLocaleString("en-US", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            })}
-          </time>
-        ),
-        size: 90,
-      },
-      {
-        header: "Total Days",
-        accessorKey: "id",
-        cell: ({ row }) => {
-          const totalDays = getTotalDays({
-            startDate: row.original.startDate,
-            endDate: row.original.endDate,
-          });
-          return (
-            <Badge variant="outline">{`${totalDays} ${totalDays === 1 ? "Day" : "Days"} Event`}</Badge>
-          );
-        },
-        enableResizing: false,
-        size: 60,
-      },
-      {
-        header: "Status",
-        accessorKey: "status",
-        cell: ({ row }) => <StatusBadge status={row.original.status} />,
+        header: "Payment Status",
+        accessorKey: "paymentStatus",
+        cell: ({ row }) => <Badge>{row.getValue("paymentStatus")}</Badge>,
         enableResizing: false,
         size: 60,
         meta: {
           filterVariant: "select",
         },
+        filterFn: formatFilterFn,
+      },
+      {
+        header: "Paid at",
+        accessorKey: "paidAt",
+        cell: ({ row }) =>
+          row.original.paidAt ? (
+            <time dateTime={row.original.paidAt}>
+              {new Date(row.original.paidAt).toLocaleString("en-US", {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </time>
+          ) : null,
       },
       {
         id: "actions",
         header: () => <span className="sr-only">Actions</span>,
-        cell: ({ row }) => (
+        cell: () => (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex justify-end">
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="shadow-none text-muted-foreground/60 shrink-0"
+                  className="shadow-none text-muted-foreground/60"
                   aria-label="Edit item"
                 >
                   <RiMoreLine className="size-5" size={20} aria-hidden="true" />
@@ -204,13 +198,7 @@ export function EventsTable() {
             <DropdownMenuContent align="end" className="w-auto">
               <DropdownMenuLabel>Action</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/admin/events/$id" params={{ id: row.original.id }}>
-                  <ArrowRight />
-                  Details
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editEvent(row.original)}>
+              <DropdownMenuItem>
                 <PenSquare />
                 Edit
               </DropdownMenuItem>
@@ -218,7 +206,6 @@ export function EventsTable() {
               <DropdownMenuItem
                 variant="destructive"
                 className="dark:data-[variant=destructive]:focus:bg-destructive/10"
-                onClick={() => deleteEvent(row.original)}
               >
                 <Trash2 />
                 Delete
@@ -230,15 +217,14 @@ export function EventsTable() {
         enableSorting: false,
         enableHiding: false,
         enablePinning: false,
-        size: 32,
+        size: 20,
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
   const table = useReactTable({
-    data,
+    data: data || [],
     columns,
     columnResizeMode: "onChange",
     getCoreRowModel: getCoreRowModel(),
@@ -255,18 +241,22 @@ export function EventsTable() {
 
   return (
     <div>
-      <EventsActionDialog state={state} setOpen={setOpen} />
+      <SeminarParticipantActionDialog
+        state={state}
+        setOpen={setOpen}
+        seminarId={seminarId}
+      />
       <div className="flex justify-between items-end gap-2 mb-2">
         <div className="flex gap-2 items-center">
-          <Filter column={table.getColumn("title")!} />
-          <Filter
-            column={table.getColumn("format")!}
-            options={validFormats as unknown as string[]}
-            width={120}
-          />
+          <Filter column={table.getColumn("userName")!} />
           <Filter
             column={table.getColumn("status")!}
-            options={validStatuses as unknown as string[]}
+            options={validParticipantStatuses as unknown as string[]}
+            width={130}
+          />
+          <Filter
+            column={table.getColumn("paymentStatus")!}
+            options={validParticipantPaymentStatuses as unknown as string[]}
             width={130}
           />
         </div>
@@ -304,9 +294,9 @@ export function EventsTable() {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="px-3" onClick={createEvent}>
+          <Button className="px-3" onClick={registerParticipant}>
             <Plus />
-            Create Event
+            Register Participant
           </Button>
         </div>
       </div>

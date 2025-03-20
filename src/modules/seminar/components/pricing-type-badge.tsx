@@ -6,6 +6,6 @@ const variant: Record<ValidPricingType, Variant> = {
   PAID: "warning",
 };
 
-export function PricingTypeBadge({ format }: { format: ValidPricingType }) {
-  return <Badge variant={variant[format]}>{format}</Badge>;
+export function PricingTypeBadge({ type }: { type: ValidPricingType }) {
+  return <Badge variant={variant[type]}>{type}</Badge>;
 }

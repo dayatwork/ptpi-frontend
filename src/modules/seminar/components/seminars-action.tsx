@@ -23,7 +23,6 @@ export function SeminarsActionDialog({
   setOpen,
 }: Props) {
   if (!intent) return null;
-  console.log({ setOpen });
 
   return (
     <Dialog

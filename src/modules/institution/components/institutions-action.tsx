@@ -22,7 +22,6 @@ export function InstitutionsActionDialog({
   setOpen,
 }: Props) {
   if (!intent) return null;
-  console.log({ setOpen });
 
   return (
     <Dialog
@@ -77,6 +76,7 @@ export function InstitutionsActionDialog({
           <DeleteInstitutionForm
             selectedInstitution={selectedInstitution}
             onSuccess={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
           />
         )}
       </DialogContent>

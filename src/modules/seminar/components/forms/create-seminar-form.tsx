@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppForm } from "@/components/form";
 import { Button } from "@/components/ui/button";
-import { getDefaultDate, getTotalDays } from "@/utils/datetime";
+import { getDefaultDate, getTotalDays, isDateInRange } from "@/utils/datetime";
 import { useCreateSeminarMutation } from "../../seminar.mutation";
 import {
   CreateSeminarInput,
@@ -42,7 +42,7 @@ export function CreateSeminarForm({
       eventId: event?.id,
     } as CreateSeminarInput,
     validators: {
-      onChange: createSeminarSchema,
+      onSubmit: createSeminarSchema,
     },
     onSubmit: async ({ value }) => {
       await createSeminarMutation.mutateAsync(value);
@@ -151,12 +151,42 @@ export function CreateSeminarForm({
         <Button type="button" variant="ghost" onClick={onCancel}>
           Cancel
         </Button>
-        <form.AppForm>
-          <form.SubmitButton
-            text="Create Seminar"
-            submittingText="Creating Seminar..."
-          />
-        </form.AppForm>
+        <form.Subscribe
+          selector={(state) => ({
+            startDate: state.values.startDate,
+            endDate: state.values.endDate,
+            canSubmit: state.canSubmit,
+            isSubmitting: state.isSubmitting,
+          })}
+          children={({ canSubmit, endDate, isSubmitting, startDate }) => {
+            const isStartDateInRange = event
+              ? isDateInRange({
+                  date: startDate,
+                  from: event.startDate,
+                  to: event.endDate,
+                })
+              : true;
+            const isEndDateInRange = event
+              ? isDateInRange({
+                  date: endDate,
+                  from: event.startDate,
+                  to: event.endDate,
+                })
+              : true;
+            return (
+              <Button
+                disabled={
+                  isSubmitting ||
+                  !canSubmit ||
+                  !isStartDateInRange ||
+                  !isEndDateInRange
+                }
+              >
+                {isSubmitting ? "Creating Seminar..." : "Create"}
+              </Button>
+            );
+          }}
+        />
       </div>
     </form>
   );

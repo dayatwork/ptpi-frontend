@@ -22,7 +22,6 @@ export function EventsActionDialog({
   setOpen,
 }: Props) {
   if (!intent) return null;
-  console.log({ setOpen });
 
   return (
     <Dialog

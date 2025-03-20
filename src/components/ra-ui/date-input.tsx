@@ -95,7 +95,7 @@ export default function RADateInput({
         }}
         minValue={minValue ? convertDateToDateValue(minValue) : undefined}
         maxValue={maxValue ? convertDateToDateValue(maxValue) : undefined}
-        isInvalid={isInvalid}
+        // isInvalid={isInvalid}
       >
         {label ? (
           <div className="flex justify-between items-center">
@@ -119,7 +119,12 @@ export default function RADateInput({
             {(segment) => (
               <DateSegment
                 segment={segment}
-                className="inline rounded p-0.5 text-foreground caret-transparent outline-0 data-[disabled]:cursor-not-allowed data-[focused]:bg-primary/30 data-[invalid]:data-[focused]:bg-destructive/20 data-[type=literal]:px-0 data-[focused]:data-[placeholder]:text-foreground data-[focused]:text-foreground data-[invalid]:data-[focused]:data-[placeholder]:text-destructive-foreground data-[invalid]:data-[focused]:text-destructive-foreground data-[invalid]:data-[placeholder]:text-destructive data-[invalid]:text-destructive data-[placeholder]:text-muted-foreground/70 data-[type=literal]:text-muted-foreground/70 data-[disabled]:opacity-50"
+                className={cn(
+                  "inline rounded p-0.5 text-foreground caret-transparent outline-0 data-[disabled]:cursor-not-allowed data-[focused]:bg-primary/30 data-[invalid]:data-[focused]:bg-destructive/20 data-[type=literal]:px-0 data-[focused]:data-[placeholder]:text-foreground data-[focused]:text-foreground data-[invalid]:data-[focused]:data-[placeholder]:text-destructive-foreground data-[invalid]:data-[focused]:text-destructive-foreground data-[invalid]:data-[placeholder]:text-destructive data-[invalid]:text-destructive data-[placeholder]:text-muted-foreground/70 data-[type=literal]:text-muted-foreground/70 data-[disabled]:opacity-50",
+                  isInvalid
+                    ? "data-[focused]:bg-destructive/20 data-[focused]:data-[placeholder]:text-destructive-foreground data-[focused]:text-destructive-foreground data-[placeholder]:text-destructive text-destructive"
+                    : ""
+                )}
               />
             )}
           </DateInput>
@@ -143,7 +148,7 @@ export default function RADateInput({
               </button>
             )}
             <Popover>
-              <PopoverTrigger className="outline-none focus-visible:ring-1 focus-visible:bg-muted focus-visible:ring-ring/50 p-1 rounded hover:bg-accent">
+              <PopoverTrigger className="outline-none focus-visible:bg-primary/20 p-1 rounded hover:bg-primary/20 cursor-pointer">
                 <CalendarIcon className="w-4 h-4" />
               </PopoverTrigger>
               <PopoverContent align="end" className="p-0 w-full">

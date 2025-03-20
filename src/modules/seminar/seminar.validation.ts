@@ -17,7 +17,7 @@ export type ValidStatus = (typeof validStatuses)[number];
 
 export const createSeminarSchema = z
   .object({
-    title: z.string().nonempty(),
+    title: z.string().min(1, "Required"),
     eventId: z.string().optional(),
     description: z.string().optional(),
     thumbnail: z.string().optional(),

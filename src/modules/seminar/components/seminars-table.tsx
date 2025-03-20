@@ -133,9 +133,7 @@ export function SeminarsTable() {
       {
         header: "Pricing",
         accessorKey: "pricingType",
-        cell: ({ row }) => (
-          <PricingTypeBadge format={row.original.pricingType} />
-        ),
+        cell: ({ row }) => <PricingTypeBadge type={row.original.pricingType} />,
         enableResizing: false,
         size: 60,
         meta: {
@@ -245,8 +243,6 @@ export function SeminarsTable() {
     onColumnFiltersChange: setColumnFilters,
     enableSortingRemoval: false,
   });
-
-  console.count("Render");
 
   return (
     <div>
