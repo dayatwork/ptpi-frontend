@@ -1,4 +1,4 @@
-import { listUsers } from "@/modules/user/user.api";
+import { listUsers } from "@/modules/admin/user/user.api";
 import { AsyncSelect } from "./async-select";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getInitialName } from "@/utils/string";

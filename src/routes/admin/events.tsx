@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { EventsHeader } from "@/modules/event/components/events-header";
-import { EventsTable } from "@/modules/event/components/events-table";
-import { ensureEventsData } from "@/modules/event/event.query";
+import { EventsHeader } from "@/modules/admin/event/components/events-header";
+import { EventsTable } from "@/modules/admin/event/components/events-table";
+import { ensureEventsData } from "@/modules/admin/event/event.query";
 
 export const Route = createFileRoute("/admin/events")({
   component: RouteComponent,

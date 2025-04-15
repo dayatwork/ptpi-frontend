@@ -23,17 +23,27 @@ import { Route as AppIndexImport } from './routes/app/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as TwoFactorOtpImport } from './routes/two-factor_.otp'
 import { Route as AppUpcomingEventsImport } from './routes/app/upcoming-events'
+import { Route as AppSeminarsImport } from './routes/app/seminars'
 import { Route as AppPreviousEventsImport } from './routes/app/previous-events'
+import { Route as AppExhibitionsImport } from './routes/app/exhibitions'
+import { Route as AppEventsImport } from './routes/app/events'
 import { Route as AdminUsersImport } from './routes/admin/users'
 import { Route as AdminSponsorshipsImport } from './routes/admin/sponsorships'
 import { Route as AdminSeminarsImport } from './routes/admin/seminars'
+import { Route as AdminLivekitRoomsImport } from './routes/admin/livekit-rooms'
 import { Route as AdminInstitutionsImport } from './routes/admin/institutions'
 import { Route as AdminExhibitionsImport } from './routes/admin/exhibitions'
 import { Route as AdminEventsImport } from './routes/admin/events'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminConsultationsImport } from './routes/admin/consultations'
+import { Route as AppEventsIndexImport } from './routes/app/events.index'
+import { Route as AppEventsIdImport } from './routes/app/events_.$id'
+import { Route as AppEventsUpcomingImport } from './routes/app/events.upcoming'
+import { Route as AppEventsPreviousImport } from './routes/app/events.previous'
+import { Route as AppEventsOngoingImport } from './routes/app/events.ongoing'
+import { Route as AdminSeminarsIdImport } from './routes/admin/seminars_.$id'
 import { Route as AdminEventsIdImport } from './routes/admin/events_.$id'
-import { Route as AdminEventsIdSeminarsSeminarIdImport } from './routes/admin/events_.$id.seminars.$seminarId'
+import { Route as AppSeminarsIdRoomImport } from './routes/app_.seminars_.$id_.room'
 
 // Create/Update Routes
 
@@ -109,9 +119,27 @@ const AppUpcomingEventsRoute = AppUpcomingEventsImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
+const AppSeminarsRoute = AppSeminarsImport.update({
+  id: '/seminars',
+  path: '/seminars',
+  getParentRoute: () => AppRoute,
+} as any)
+
 const AppPreviousEventsRoute = AppPreviousEventsImport.update({
   id: '/previous-events',
   path: '/previous-events',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppExhibitionsRoute = AppExhibitionsImport.update({
+  id: '/exhibitions',
+  path: '/exhibitions',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppEventsRoute = AppEventsImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -130,6 +158,12 @@ const AdminSponsorshipsRoute = AdminSponsorshipsImport.update({
 const AdminSeminarsRoute = AdminSeminarsImport.update({
   id: '/seminars',
   path: '/seminars',
+  getParentRoute: () => AdminRoute,
+} as any)
+
+const AdminLivekitRoomsRoute = AdminLivekitRoomsImport.update({
+  id: '/livekit-rooms',
+  path: '/livekit-rooms',
   getParentRoute: () => AdminRoute,
 } as any)
 
@@ -163,18 +197,53 @@ const AdminConsultationsRoute = AdminConsultationsImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AppEventsIndexRoute = AppEventsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppEventsRoute,
+} as any)
+
+const AppEventsIdRoute = AppEventsIdImport.update({
+  id: '/events_/$id',
+  path: '/events/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppEventsUpcomingRoute = AppEventsUpcomingImport.update({
+  id: '/upcoming',
+  path: '/upcoming',
+  getParentRoute: () => AppEventsRoute,
+} as any)
+
+const AppEventsPreviousRoute = AppEventsPreviousImport.update({
+  id: '/previous',
+  path: '/previous',
+  getParentRoute: () => AppEventsRoute,
+} as any)
+
+const AppEventsOngoingRoute = AppEventsOngoingImport.update({
+  id: '/ongoing',
+  path: '/ongoing',
+  getParentRoute: () => AppEventsRoute,
+} as any)
+
+const AdminSeminarsIdRoute = AdminSeminarsIdImport.update({
+  id: '/seminars_/$id',
+  path: '/seminars/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const AdminEventsIdRoute = AdminEventsIdImport.update({
   id: '/events_/$id',
   path: '/events/$id',
   getParentRoute: () => AdminRoute,
 } as any)
 
-const AdminEventsIdSeminarsSeminarIdRoute =
-  AdminEventsIdSeminarsSeminarIdImport.update({
-    id: '/seminars/$seminarId',
-    path: '/seminars/$seminarId',
-    getParentRoute: () => AdminEventsIdRoute,
-  } as any)
+const AppSeminarsIdRoomRoute = AppSeminarsIdRoomImport.update({
+  id: '/app_/seminars_/$id_/room',
+  path: '/app/seminars/$id/room',
+  getParentRoute: () => rootRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -271,6 +340,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInstitutionsImport
       parentRoute: typeof AdminImport
     }
+    '/admin/livekit-rooms': {
+      id: '/admin/livekit-rooms'
+      path: '/livekit-rooms'
+      fullPath: '/admin/livekit-rooms'
+      preLoaderRoute: typeof AdminLivekitRoomsImport
+      parentRoute: typeof AdminImport
+    }
     '/admin/seminars': {
       id: '/admin/seminars'
       path: '/seminars'
@@ -292,11 +368,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersImport
       parentRoute: typeof AdminImport
     }
+    '/app/events': {
+      id: '/app/events'
+      path: '/events'
+      fullPath: '/app/events'
+      preLoaderRoute: typeof AppEventsImport
+      parentRoute: typeof AppImport
+    }
+    '/app/exhibitions': {
+      id: '/app/exhibitions'
+      path: '/exhibitions'
+      fullPath: '/app/exhibitions'
+      preLoaderRoute: typeof AppExhibitionsImport
+      parentRoute: typeof AppImport
+    }
     '/app/previous-events': {
       id: '/app/previous-events'
       path: '/previous-events'
       fullPath: '/app/previous-events'
       preLoaderRoute: typeof AppPreviousEventsImport
+      parentRoute: typeof AppImport
+    }
+    '/app/seminars': {
+      id: '/app/seminars'
+      path: '/seminars'
+      fullPath: '/app/seminars'
+      preLoaderRoute: typeof AppSeminarsImport
       parentRoute: typeof AppImport
     }
     '/app/upcoming-events': {
@@ -334,29 +431,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEventsIdImport
       parentRoute: typeof AdminImport
     }
-    '/admin/events_/$id/seminars/$seminarId': {
-      id: '/admin/events_/$id/seminars/$seminarId'
-      path: '/seminars/$seminarId'
-      fullPath: '/admin/events/$id/seminars/$seminarId'
-      preLoaderRoute: typeof AdminEventsIdSeminarsSeminarIdImport
-      parentRoute: typeof AdminEventsIdImport
+    '/admin/seminars_/$id': {
+      id: '/admin/seminars_/$id'
+      path: '/seminars/$id'
+      fullPath: '/admin/seminars/$id'
+      preLoaderRoute: typeof AdminSeminarsIdImport
+      parentRoute: typeof AdminImport
+    }
+    '/app/events/ongoing': {
+      id: '/app/events/ongoing'
+      path: '/ongoing'
+      fullPath: '/app/events/ongoing'
+      preLoaderRoute: typeof AppEventsOngoingImport
+      parentRoute: typeof AppEventsImport
+    }
+    '/app/events/previous': {
+      id: '/app/events/previous'
+      path: '/previous'
+      fullPath: '/app/events/previous'
+      preLoaderRoute: typeof AppEventsPreviousImport
+      parentRoute: typeof AppEventsImport
+    }
+    '/app/events/upcoming': {
+      id: '/app/events/upcoming'
+      path: '/upcoming'
+      fullPath: '/app/events/upcoming'
+      preLoaderRoute: typeof AppEventsUpcomingImport
+      parentRoute: typeof AppEventsImport
+    }
+    '/app/events_/$id': {
+      id: '/app/events_/$id'
+      path: '/events/$id'
+      fullPath: '/app/events/$id'
+      preLoaderRoute: typeof AppEventsIdImport
+      parentRoute: typeof AppImport
+    }
+    '/app/events/': {
+      id: '/app/events/'
+      path: '/'
+      fullPath: '/app/events/'
+      preLoaderRoute: typeof AppEventsIndexImport
+      parentRoute: typeof AppEventsImport
+    }
+    '/app_/seminars_/$id_/room': {
+      id: '/app_/seminars_/$id_/room'
+      path: '/app/seminars/$id/room'
+      fullPath: '/app/seminars/$id/room'
+      preLoaderRoute: typeof AppSeminarsIdRoomImport
+      parentRoute: typeof rootRoute
     }
   }
 }
 
 // Create and export the route tree
-
-interface AdminEventsIdRouteChildren {
-  AdminEventsIdSeminarsSeminarIdRoute: typeof AdminEventsIdSeminarsSeminarIdRoute
-}
-
-const AdminEventsIdRouteChildren: AdminEventsIdRouteChildren = {
-  AdminEventsIdSeminarsSeminarIdRoute: AdminEventsIdSeminarsSeminarIdRoute,
-}
-
-const AdminEventsIdRouteWithChildren = AdminEventsIdRoute._addFileChildren(
-  AdminEventsIdRouteChildren,
-)
 
 interface AdminRouteChildren {
   AdminConsultationsRoute: typeof AdminConsultationsRoute
@@ -364,11 +491,13 @@ interface AdminRouteChildren {
   AdminEventsRoute: typeof AdminEventsRoute
   AdminExhibitionsRoute: typeof AdminExhibitionsRoute
   AdminInstitutionsRoute: typeof AdminInstitutionsRoute
+  AdminLivekitRoomsRoute: typeof AdminLivekitRoomsRoute
   AdminSeminarsRoute: typeof AdminSeminarsRoute
   AdminSponsorshipsRoute: typeof AdminSponsorshipsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  AdminEventsIdRoute: typeof AdminEventsIdRouteWithChildren
+  AdminEventsIdRoute: typeof AdminEventsIdRoute
+  AdminSeminarsIdRoute: typeof AdminSeminarsIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -377,25 +506,53 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEventsRoute: AdminEventsRoute,
   AdminExhibitionsRoute: AdminExhibitionsRoute,
   AdminInstitutionsRoute: AdminInstitutionsRoute,
+  AdminLivekitRoomsRoute: AdminLivekitRoomsRoute,
   AdminSeminarsRoute: AdminSeminarsRoute,
   AdminSponsorshipsRoute: AdminSponsorshipsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
-  AdminEventsIdRoute: AdminEventsIdRouteWithChildren,
+  AdminEventsIdRoute: AdminEventsIdRoute,
+  AdminSeminarsIdRoute: AdminSeminarsIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface AppEventsRouteChildren {
+  AppEventsOngoingRoute: typeof AppEventsOngoingRoute
+  AppEventsPreviousRoute: typeof AppEventsPreviousRoute
+  AppEventsUpcomingRoute: typeof AppEventsUpcomingRoute
+  AppEventsIndexRoute: typeof AppEventsIndexRoute
+}
+
+const AppEventsRouteChildren: AppEventsRouteChildren = {
+  AppEventsOngoingRoute: AppEventsOngoingRoute,
+  AppEventsPreviousRoute: AppEventsPreviousRoute,
+  AppEventsUpcomingRoute: AppEventsUpcomingRoute,
+  AppEventsIndexRoute: AppEventsIndexRoute,
+}
+
+const AppEventsRouteWithChildren = AppEventsRoute._addFileChildren(
+  AppEventsRouteChildren,
+)
+
 interface AppRouteChildren {
+  AppEventsRoute: typeof AppEventsRouteWithChildren
+  AppExhibitionsRoute: typeof AppExhibitionsRoute
   AppPreviousEventsRoute: typeof AppPreviousEventsRoute
+  AppSeminarsRoute: typeof AppSeminarsRoute
   AppUpcomingEventsRoute: typeof AppUpcomingEventsRoute
   AppIndexRoute: typeof AppIndexRoute
+  AppEventsIdRoute: typeof AppEventsIdRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppEventsRoute: AppEventsRouteWithChildren,
+  AppExhibitionsRoute: AppExhibitionsRoute,
   AppPreviousEventsRoute: AppPreviousEventsRoute,
+  AppSeminarsRoute: AppSeminarsRoute,
   AppUpcomingEventsRoute: AppUpcomingEventsRoute,
   AppIndexRoute: AppIndexRoute,
+  AppEventsIdRoute: AppEventsIdRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -414,16 +571,26 @@ export interface FileRoutesByFullPath {
   '/admin/events': typeof AdminEventsRoute
   '/admin/exhibitions': typeof AdminExhibitionsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/livekit-rooms': typeof AdminLivekitRoomsRoute
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/events': typeof AppEventsRouteWithChildren
+  '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
+  '/app/seminars': typeof AppSeminarsRoute
   '/app/upcoming-events': typeof AppUpcomingEventsRoute
   '/two-factor/otp': typeof TwoFactorOtpRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
-  '/admin/events/$id': typeof AdminEventsIdRouteWithChildren
-  '/admin/events/$id/seminars/$seminarId': typeof AdminEventsIdSeminarsSeminarIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/seminars/$id': typeof AdminSeminarsIdRoute
+  '/app/events/ongoing': typeof AppEventsOngoingRoute
+  '/app/events/previous': typeof AppEventsPreviousRoute
+  '/app/events/upcoming': typeof AppEventsUpcomingRoute
+  '/app/events/$id': typeof AppEventsIdRoute
+  '/app/events/': typeof AppEventsIndexRoute
+  '/app/seminars/$id/room': typeof AppSeminarsIdRoomRoute
 }
 
 export interface FileRoutesByTo {
@@ -438,16 +605,25 @@ export interface FileRoutesByTo {
   '/admin/events': typeof AdminEventsRoute
   '/admin/exhibitions': typeof AdminExhibitionsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/livekit-rooms': typeof AdminLivekitRoomsRoute
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
+  '/app/seminars': typeof AppSeminarsRoute
   '/app/upcoming-events': typeof AppUpcomingEventsRoute
   '/two-factor/otp': typeof TwoFactorOtpRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
-  '/admin/events/$id': typeof AdminEventsIdRouteWithChildren
-  '/admin/events/$id/seminars/$seminarId': typeof AdminEventsIdSeminarsSeminarIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/seminars/$id': typeof AdminSeminarsIdRoute
+  '/app/events/ongoing': typeof AppEventsOngoingRoute
+  '/app/events/previous': typeof AppEventsPreviousRoute
+  '/app/events/upcoming': typeof AppEventsUpcomingRoute
+  '/app/events/$id': typeof AppEventsIdRoute
+  '/app/events': typeof AppEventsIndexRoute
+  '/app/seminars/$id/room': typeof AppSeminarsIdRoomRoute
 }
 
 export interface FileRoutesById {
@@ -465,16 +641,26 @@ export interface FileRoutesById {
   '/admin/events': typeof AdminEventsRoute
   '/admin/exhibitions': typeof AdminExhibitionsRoute
   '/admin/institutions': typeof AdminInstitutionsRoute
+  '/admin/livekit-rooms': typeof AdminLivekitRoomsRoute
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/events': typeof AppEventsRouteWithChildren
+  '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
+  '/app/seminars': typeof AppSeminarsRoute
   '/app/upcoming-events': typeof AppUpcomingEventsRoute
   '/two-factor_/otp': typeof TwoFactorOtpRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
-  '/admin/events_/$id': typeof AdminEventsIdRouteWithChildren
-  '/admin/events_/$id/seminars/$seminarId': typeof AdminEventsIdSeminarsSeminarIdRoute
+  '/admin/events_/$id': typeof AdminEventsIdRoute
+  '/admin/seminars_/$id': typeof AdminSeminarsIdRoute
+  '/app/events/ongoing': typeof AppEventsOngoingRoute
+  '/app/events/previous': typeof AppEventsPreviousRoute
+  '/app/events/upcoming': typeof AppEventsUpcomingRoute
+  '/app/events_/$id': typeof AppEventsIdRoute
+  '/app/events/': typeof AppEventsIndexRoute
+  '/app_/seminars_/$id_/room': typeof AppSeminarsIdRoomRoute
 }
 
 export interface FileRouteTypes {
@@ -493,16 +679,26 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/exhibitions'
     | '/admin/institutions'
+    | '/admin/livekit-rooms'
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/events'
+    | '/app/exhibitions'
     | '/app/previous-events'
+    | '/app/seminars'
     | '/app/upcoming-events'
     | '/two-factor/otp'
     | '/admin/'
     | '/app/'
     | '/admin/events/$id'
-    | '/admin/events/$id/seminars/$seminarId'
+    | '/admin/seminars/$id'
+    | '/app/events/ongoing'
+    | '/app/events/previous'
+    | '/app/events/upcoming'
+    | '/app/events/$id'
+    | '/app/events/'
+    | '/app/seminars/$id/room'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -516,16 +712,25 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/exhibitions'
     | '/admin/institutions'
+    | '/admin/livekit-rooms'
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/exhibitions'
     | '/app/previous-events'
+    | '/app/seminars'
     | '/app/upcoming-events'
     | '/two-factor/otp'
     | '/admin'
     | '/app'
     | '/admin/events/$id'
-    | '/admin/events/$id/seminars/$seminarId'
+    | '/admin/seminars/$id'
+    | '/app/events/ongoing'
+    | '/app/events/previous'
+    | '/app/events/upcoming'
+    | '/app/events/$id'
+    | '/app/events'
+    | '/app/seminars/$id/room'
   id:
     | '__root__'
     | '/'
@@ -541,16 +746,26 @@ export interface FileRouteTypes {
     | '/admin/events'
     | '/admin/exhibitions'
     | '/admin/institutions'
+    | '/admin/livekit-rooms'
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/events'
+    | '/app/exhibitions'
     | '/app/previous-events'
+    | '/app/seminars'
     | '/app/upcoming-events'
     | '/two-factor_/otp'
     | '/admin/'
     | '/app/'
     | '/admin/events_/$id'
-    | '/admin/events_/$id/seminars/$seminarId'
+    | '/admin/seminars_/$id'
+    | '/app/events/ongoing'
+    | '/app/events/previous'
+    | '/app/events/upcoming'
+    | '/app/events_/$id'
+    | '/app/events/'
+    | '/app_/seminars_/$id_/room'
   fileRoutesById: FileRoutesById
 }
 
@@ -564,6 +779,7 @@ export interface RootRouteChildren {
   SignUpRoute: typeof SignUpRoute
   TwoFactorRoute: typeof TwoFactorRoute
   TwoFactorOtpRoute: typeof TwoFactorOtpRoute
+  AppSeminarsIdRoomRoute: typeof AppSeminarsIdRoomRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -576,6 +792,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpRoute: SignUpRoute,
   TwoFactorRoute: TwoFactorRoute,
   TwoFactorOtpRoute: TwoFactorOtpRoute,
+  AppSeminarsIdRoomRoute: AppSeminarsIdRoomRoute,
 }
 
 export const routeTree = rootRoute
@@ -596,7 +813,8 @@ export const routeTree = rootRoute
         "/sign-in",
         "/sign-up",
         "/two-factor",
-        "/two-factor_/otp"
+        "/two-factor_/otp",
+        "/app_/seminars_/$id_/room"
       ]
     },
     "/": {
@@ -610,19 +828,25 @@ export const routeTree = rootRoute
         "/admin/events",
         "/admin/exhibitions",
         "/admin/institutions",
+        "/admin/livekit-rooms",
         "/admin/seminars",
         "/admin/sponsorships",
         "/admin/users",
         "/admin/",
-        "/admin/events_/$id"
+        "/admin/events_/$id",
+        "/admin/seminars_/$id"
       ]
     },
     "/app": {
       "filePath": "app.tsx",
       "children": [
+        "/app/events",
+        "/app/exhibitions",
         "/app/previous-events",
+        "/app/seminars",
         "/app/upcoming-events",
-        "/app/"
+        "/app/",
+        "/app/events_/$id"
       ]
     },
     "/forget-password": {
@@ -660,6 +884,10 @@ export const routeTree = rootRoute
       "filePath": "admin/institutions.tsx",
       "parent": "/admin"
     },
+    "/admin/livekit-rooms": {
+      "filePath": "admin/livekit-rooms.tsx",
+      "parent": "/admin"
+    },
     "/admin/seminars": {
       "filePath": "admin/seminars.tsx",
       "parent": "/admin"
@@ -672,8 +900,26 @@ export const routeTree = rootRoute
       "filePath": "admin/users.tsx",
       "parent": "/admin"
     },
+    "/app/events": {
+      "filePath": "app/events.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/events/ongoing",
+        "/app/events/previous",
+        "/app/events/upcoming",
+        "/app/events/"
+      ]
+    },
+    "/app/exhibitions": {
+      "filePath": "app/exhibitions.tsx",
+      "parent": "/app"
+    },
     "/app/previous-events": {
       "filePath": "app/previous-events.tsx",
+      "parent": "/app"
+    },
+    "/app/seminars": {
+      "filePath": "app/seminars.tsx",
       "parent": "/app"
     },
     "/app/upcoming-events": {
@@ -693,14 +939,34 @@ export const routeTree = rootRoute
     },
     "/admin/events_/$id": {
       "filePath": "admin/events_.$id.tsx",
-      "parent": "/admin",
-      "children": [
-        "/admin/events_/$id/seminars/$seminarId"
-      ]
+      "parent": "/admin"
     },
-    "/admin/events_/$id/seminars/$seminarId": {
-      "filePath": "admin/events_.$id.seminars.$seminarId.tsx",
-      "parent": "/admin/events_/$id"
+    "/admin/seminars_/$id": {
+      "filePath": "admin/seminars_.$id.tsx",
+      "parent": "/admin"
+    },
+    "/app/events/ongoing": {
+      "filePath": "app/events.ongoing.tsx",
+      "parent": "/app/events"
+    },
+    "/app/events/previous": {
+      "filePath": "app/events.previous.tsx",
+      "parent": "/app/events"
+    },
+    "/app/events/upcoming": {
+      "filePath": "app/events.upcoming.tsx",
+      "parent": "/app/events"
+    },
+    "/app/events_/$id": {
+      "filePath": "app/events_.$id.tsx",
+      "parent": "/app"
+    },
+    "/app/events/": {
+      "filePath": "app/events.index.tsx",
+      "parent": "/app/events"
+    },
+    "/app_/seminars_/$id_/room": {
+      "filePath": "app_.seminars_.$id_.room.tsx"
     }
   }
 }

@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { ensureUsersData } from "@/modules/user/user.query";
-import { UsersTable } from "@/modules/user/components/users-table";
-import { UsersStats } from "@/modules/user/components/users-stats";
-import { UsersHeader } from "@/modules/user/components/users-header";
-import { CreateUser } from "@/modules/user/components/create-user";
+import { ensureUsersData } from "@/modules/admin/user/user.query";
+import { UsersTable } from "@/modules/admin/user/components/users-table";
+import { UsersStats } from "@/modules/admin/user/components/users-stats";
+import { UsersHeader } from "@/modules/admin/user/components/users-header";
+import { CreateUser } from "@/modules/admin/user/components/create-user";
 
 export const Route = createFileRoute("/admin/users")({
   component: RouteComponent,

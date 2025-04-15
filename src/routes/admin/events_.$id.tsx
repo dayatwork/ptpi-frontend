@@ -1,13 +1,3 @@
-import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EventDetailActivities } from "@/modules/event/components/event-detail-activities";
-import { EventDetailHeader } from "@/modules/event/components/event-detail-header";
-import { EventDetailOverview } from "@/modules/event/components/event-detail-overview";
-import { FormatBadge } from "@/modules/event/components/format-badge";
-import { StatusBadge } from "@/modules/event/components/status-badge";
-import { ensureEventData, useEvent } from "@/modules/event/event.query";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import {
   CalendarDays,
@@ -17,6 +7,16 @@ import {
   Settings,
   TableOfContents,
 } from "lucide-react";
+import { AdminContainer } from "@/components/layouts/admin/admin-container";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EventDetailActivities } from "@/modules/admin/event/components/event-detail-activities";
+import { EventDetailHeader } from "@/modules/admin/event/components/event-detail-header";
+import { EventDetailOverview } from "@/modules/admin/event/components/event-detail-overview";
+import { FormatBadge } from "@/modules/admin/event/components/format-badge";
+import { StatusBadge } from "@/modules/admin/event/components/status-badge";
+import { ensureEventData, useEvent } from "@/modules/admin/event/event.query";
 
 export const Route = createFileRoute("/admin/events_/$id")({
   component: RouteComponent,
@@ -85,7 +85,7 @@ function RouteComponent() {
             </dl>
           </div>
         </div>
-        <Tabs defaultValue="overview">
+        <Tabs defaultValue="activities">
           <ScrollArea>
             <TabsList className="text-foreground mb-3 h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1 w-full justify-start">
               <TabsTrigger

@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { InstitutionsHeader } from "@/modules/institution/components/institutions-header";
-import { InstitutionsTable } from "@/modules/institution/components/institutions-table";
-import { ensureInstitutionsData } from "@/modules/institution/institution.query";
+import { InstitutionsHeader } from "@/modules/admin/institution/components/institutions-header";
+import { InstitutionsTable } from "@/modules/admin/institution/components/institutions-table";
+import { ensureInstitutionsData } from "@/modules/admin/institution/institution.query";
 
 export const Route = createFileRoute("/admin/institutions")({
   component: RouteComponent,

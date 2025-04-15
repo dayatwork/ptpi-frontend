@@ -8,6 +8,7 @@ import {
   Info,
   Landmark,
   LayoutDashboard,
+  MonitorPlay,
   Phone,
   Presentation,
   Settings2,
@@ -83,13 +84,18 @@ const data = {
       url: "#",
       items: [
         {
+          title: "Livekit Rooms",
+          url: "/admin/livekit-rooms",
+          icon: MonitorPlay,
+        },
+        {
           title: "Settings",
-          url: "#",
+          url: "/admin/settings",
           icon: Settings2,
         },
         {
           title: "Help Center",
-          url: "#",
+          url: "/admin/help",
           icon: Info,
         },
       ],

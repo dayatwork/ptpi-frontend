@@ -7,6 +7,7 @@ import { CheckboxField } from "./checkbox-field";
 import { SubmitButton } from "./submit-button";
 import { PasswordField } from "./password-field";
 import { EmailField } from "./email-field";
+import { NumberField } from "./number-field";
 
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
@@ -20,6 +21,7 @@ export const { useAppForm } = createFormHook({
     SelectField,
     DateInputField,
     CheckboxField,
+    NumberField,
   },
   formComponents: {
     SubmitButton,

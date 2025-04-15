@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { SeminarsHeader } from "@/modules/seminar/components/seminars-header";
-import { SeminarsTable } from "@/modules/seminar/components/seminars-table";
-import { ensureSeminarsData } from "@/modules/seminar/seminar.query";
+import { SeminarsHeader } from "@/modules/admin/seminar/components/seminars-header";
+import { SeminarsTable } from "@/modules/admin/seminar/components/seminars-table";
+import { ensureSeminarsData } from "@/modules/admin/seminar/seminar.query";
 
 export const Route = createFileRoute("/admin/seminars")({
   component: RouteComponent,

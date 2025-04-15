@@ -1,3 +1,5 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { LayoutDashboard } from "lucide-react";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
 import {
   Breadcrumb,
@@ -7,8 +9,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { createFileRoute } from "@tanstack/react-router";
-import { LayoutDashboard } from "lucide-react";
 
 export const Route = createFileRoute("/admin/consultations")({
   component: RouteComponent,

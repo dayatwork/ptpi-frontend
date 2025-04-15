@@ -46,20 +46,28 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 Home
               </Link>
               <Link
-                to="/app/upcoming-events"
+                to="/app/events"
                 className="text-sm px-2 py-1 rounded hover:bg-accent"
                 activeProps={{ className: "text-foreground font-semibold" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
               >
-                Upcoming Events
+                Events
               </Link>
               <Link
-                to="/app/previous-events"
+                to="/app/seminars"
                 className="text-sm px-2 py-1 rounded hover:bg-accent"
                 activeProps={{ className: "text-foreground font-semibold" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
               >
-                Previous Events
+                Seminars
+              </Link>
+              <Link
+                to="/app/exhibitions"
+                className="text-sm px-2 py-1 rounded hover:bg-accent"
+                activeProps={{ className: "text-foreground font-semibold" }}
+                inactiveProps={{ className: "text-muted-foreground" }}
+              >
+                Exhibitions
               </Link>
             </nav>
           </div>
