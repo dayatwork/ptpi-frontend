@@ -22,3 +22,16 @@ export type SeminarParticipation = {
   status: string;
   registeredAt: string;
 };
+
+export type Participant = {
+  id: string;
+  status: string;
+  userId: string;
+  userName: string;
+  userAvatar: string | null;
+  seminarId: string;
+  paymentStatus: string;
+  registeredAt: Date;
+  paidAt: Date | null;
+  certificate: string | null;
+};

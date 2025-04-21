@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   VideoConference,
-  DisconnectButton,
+  // DisconnectButton,
   LiveKitRoom,
   RoomAudioRenderer,
   // Chat,
@@ -29,7 +29,7 @@ type AccessTokenResponse = {
   };
 };
 
-export function MeetingRoom({
+export function MeetingRoomAdmin({
   label,
   roomName,
   participantName,
@@ -82,7 +82,7 @@ export function MeetingRoom({
       {/* Your custom component with basic video conferencing functionality. */}
       {/* <MyVideoConference /> */}
       <VideoConference />
-      <DisconnectButton />
+      {/* <DisconnectButton /> */}
       {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
       <RoomAudioRenderer />
     </LiveKitRoom>

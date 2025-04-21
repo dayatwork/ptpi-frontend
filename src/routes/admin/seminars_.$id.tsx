@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { MeetingRoom } from "@/modules/admin/meeting/components/meeting-room";
+import { MeetingRoomAdmin } from "@/modules/admin/meeting/components/meeting-room-admin";
 import { FormatBadge } from "@/modules/admin/seminar/components/format-badge";
 import {
   SeminarActionDialog,
@@ -104,21 +104,28 @@ function RouteComponent() {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Action</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={editSeminar}>
+                <DropdownMenuItem
+                  onClick={editSeminar}
+                  disabled={seminar.status === "DONE"}
+                >
                   <PenSquare />
                   Edit Seminar
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                {seminar.isRegistrationOpen ? (
-                  <DropdownMenuItem>
-                    <DoorClosed />
-                    Close Registration
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem>
-                    <DoorOpen />
-                    Open Registration
-                  </DropdownMenuItem>
+                {["DRAFT", "SCHEDULED", "ONGOING"].includes(seminar.status) && (
+                  <>
+                    <DropdownMenuSeparator />
+                    {seminar.isRegistrationOpen ? (
+                      <DropdownMenuItem>
+                        <DoorClosed />
+                        Close Registration
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem>
+                        <DoorOpen />
+                        Open Registration
+                      </DropdownMenuItem>
+                    )}
+                  </>
                 )}
 
                 {seminar.status === "DRAFT" && (
@@ -173,7 +180,7 @@ function RouteComponent() {
             {userSession ? (
               <div className="aspect-video">
                 {seminar.onlineRoomId ? (
-                  <MeetingRoom
+                  <MeetingRoomAdmin
                     label="The seminar has started. Please enter the room."
                     roomName={seminar.onlineRoomId}
                     participantName={userSession.user.name}

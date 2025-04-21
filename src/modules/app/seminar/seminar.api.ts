@@ -1,5 +1,5 @@
 import axios from "redaxios";
-import { SeminarParticipation } from "./seminar";
+import { Participant, Seminar, SeminarParticipation } from "./seminar";
 
 type RegisterSeminarResponse = {
   data: SeminarParticipation;
@@ -10,6 +10,20 @@ export async function registerSeminar(seminarId: string) {
     .post<RegisterSeminarResponse>(
       `${import.meta.env.VITE_API_URL}/api/seminars/${seminarId}/register`,
       null,
+      { withCredentials: true }
+    )
+    .then((r) => r.data.data);
+  return seminar;
+}
+
+type GetSeminarResponse = {
+  data: Seminar & { participant: Participant | null };
+};
+
+export async function getSeminar(seminarId: string) {
+  const seminar = await axios
+    .get<GetSeminarResponse>(
+      `${import.meta.env.VITE_API_URL}/api/seminars/${seminarId}`,
       { withCredentials: true }
     )
     .then((r) => r.data.data);
