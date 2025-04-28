@@ -1,3 +1,4 @@
+import { Consultation } from "../consultation/consultation";
 import { Seminar } from "../seminar/seminar";
 
 export type Event = {
@@ -13,4 +14,5 @@ export type Event = {
   createdAt: string;
   updatedAt: string;
   seminars: Seminar[];
+  consultations: Consultation[];
 };

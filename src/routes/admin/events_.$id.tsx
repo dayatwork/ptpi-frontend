@@ -4,19 +4,22 @@ import {
   Handshake,
   HouseIcon,
   MapPin,
+  PhoneIcon,
+  Presentation,
   Settings,
-  TableOfContents,
+  Store,
 } from "lucide-react";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EventDetailActivities } from "@/modules/admin/event/components/event-detail-activities";
+import { EventSeminars } from "@/modules/admin/event/components/event-detail-seminars";
 import { EventDetailHeader } from "@/modules/admin/event/components/event-detail-header";
 import { EventDetailOverview } from "@/modules/admin/event/components/event-detail-overview";
 import { FormatBadge } from "@/modules/admin/event/components/format-badge";
 import { StatusBadge } from "@/modules/admin/event/components/status-badge";
 import { ensureEventData, useEvent } from "@/modules/admin/event/event.query";
+import { EventConsultations } from "@/modules/admin/event/components/event-detail-consultations";
 
 export const Route = createFileRoute("/admin/events_/$id")({
   component: RouteComponent,
@@ -85,7 +88,7 @@ function RouteComponent() {
             </dl>
           </div>
         </div>
-        <Tabs defaultValue="activities">
+        <Tabs defaultValue="seminars">
           <ScrollArea>
             <TabsList className="text-foreground mb-3 h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1 w-full justify-start">
               <TabsTrigger
@@ -100,15 +103,37 @@ function RouteComponent() {
                 Overview
               </TabsTrigger>
               <TabsTrigger
-                value="activities"
+                value="seminars"
                 className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
               >
-                <TableOfContents
+                <Presentation
                   className="-ms-0.5 me-1.5 opacity-60"
                   size={16}
                   aria-hidden="true"
                 />
-                Activities
+                Seminars
+              </TabsTrigger>
+              <TabsTrigger
+                value="consultations"
+                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                <PhoneIcon
+                  className="-ms-0.5 me-1.5 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Consultations
+              </TabsTrigger>
+              <TabsTrigger
+                value="exhibition"
+                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+              >
+                <Store
+                  className="-ms-0.5 me-1.5 opacity-60"
+                  size={16}
+                  aria-hidden="true"
+                />
+                Exhibition
               </TabsTrigger>
 
               <TabsTrigger
@@ -129,15 +154,17 @@ function RouteComponent() {
           <TabsContent value="overview">
             <EventDetailOverview event={data} />
           </TabsContent>
-          <TabsContent value="activities">
-            <EventDetailActivities event={data} />
+          <TabsContent value="seminars">
+            <EventSeminars event={data} />
+          </TabsContent>
+          <TabsContent value="consultations">
+            <EventConsultations event={data} />
+          </TabsContent>
+          <TabsContent value="exhibition">
+            <EventConsultations event={data} />
           </TabsContent>
 
-          <TabsContent value="sponsorships">
-            <p className="text-muted-foreground pt-1 text-center text-xs">
-              Content for Tab 4
-            </p>
-          </TabsContent>
+          <TabsContent value="sponsorships"></TabsContent>
         </Tabs>
       </AdminContainer>
     </>

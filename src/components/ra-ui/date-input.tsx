@@ -128,11 +128,11 @@ export default function RADateInput({
               />
             )}
           </DateInput>
-          {!isInvalid && (
+          {/* {!isInvalid && (
             <p className="mt-1 text-xs text-muted-foreground leading-none">
               MM / DD / YYYY
             </p>
-          )}
+          )} */}
           <div className="absolute top-1.5 right-1.5 flex items-center">
             {clearable && date && (
               <button

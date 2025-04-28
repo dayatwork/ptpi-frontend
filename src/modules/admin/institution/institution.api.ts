@@ -5,12 +5,21 @@ type ListInstitutionsResponse = {
   data: Institution[];
 };
 
-export async function listInstitutions() {
+export type ListInstitutionsProps = {
+  search: string;
+};
+
+export async function listInstitutions(props?: ListInstitutionsProps) {
   const institutions = await axios
     .get<ListInstitutionsResponse>(
       `${import.meta.env.VITE_API_URL}/api/admin/institutions`,
       {
         withCredentials: true,
+        params: props?.search
+          ? {
+              q: props.search,
+            }
+          : undefined,
       }
     )
     .then((r) => r.data.data);

@@ -43,6 +43,7 @@ import { Route as AppEventsPreviousImport } from './routes/app/events.previous'
 import { Route as AppEventsOngoingImport } from './routes/app/events.ongoing'
 import { Route as AdminSeminarsIdImport } from './routes/admin/seminars_.$id'
 import { Route as AdminEventsIdImport } from './routes/admin/events_.$id'
+import { Route as AdminConsultationsIdImport } from './routes/admin/consultations_.$id'
 import { Route as AppSeminarsIdRoomImport } from './routes/app_.seminars_.$id_.room'
 
 // Create/Update Routes
@@ -239,6 +240,12 @@ const AdminEventsIdRoute = AdminEventsIdImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AdminConsultationsIdRoute = AdminConsultationsIdImport.update({
+  id: '/consultations_/$id',
+  path: '/consultations/$id',
+  getParentRoute: () => AdminRoute,
+} as any)
+
 const AppSeminarsIdRoomRoute = AppSeminarsIdRoomImport.update({
   id: '/app_/seminars_/$id_/room',
   path: '/app/seminars/$id/room',
@@ -424,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexImport
       parentRoute: typeof AppImport
     }
+    '/admin/consultations_/$id': {
+      id: '/admin/consultations_/$id'
+      path: '/consultations/$id'
+      fullPath: '/admin/consultations/$id'
+      preLoaderRoute: typeof AdminConsultationsIdImport
+      parentRoute: typeof AdminImport
+    }
     '/admin/events_/$id': {
       id: '/admin/events_/$id'
       path: '/events/$id'
@@ -496,6 +510,7 @@ interface AdminRouteChildren {
   AdminSponsorshipsRoute: typeof AdminSponsorshipsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminConsultationsIdRoute: typeof AdminConsultationsIdRoute
   AdminEventsIdRoute: typeof AdminEventsIdRoute
   AdminSeminarsIdRoute: typeof AdminSeminarsIdRoute
 }
@@ -511,6 +526,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminSponsorshipsRoute: AdminSponsorshipsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminConsultationsIdRoute: AdminConsultationsIdRoute,
   AdminEventsIdRoute: AdminEventsIdRoute,
   AdminSeminarsIdRoute: AdminSeminarsIdRoute,
 }
@@ -583,6 +599,7 @@ export interface FileRoutesByFullPath {
   '/two-factor/otp': typeof TwoFactorOtpRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/admin/consultations/$id': typeof AdminConsultationsIdRoute
   '/admin/events/$id': typeof AdminEventsIdRoute
   '/admin/seminars/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
@@ -616,6 +633,7 @@ export interface FileRoutesByTo {
   '/two-factor/otp': typeof TwoFactorOtpRoute
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
+  '/admin/consultations/$id': typeof AdminConsultationsIdRoute
   '/admin/events/$id': typeof AdminEventsIdRoute
   '/admin/seminars/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
@@ -653,6 +671,7 @@ export interface FileRoutesById {
   '/two-factor_/otp': typeof TwoFactorOtpRoute
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
+  '/admin/consultations_/$id': typeof AdminConsultationsIdRoute
   '/admin/events_/$id': typeof AdminEventsIdRoute
   '/admin/seminars_/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
@@ -691,6 +710,7 @@ export interface FileRouteTypes {
     | '/two-factor/otp'
     | '/admin/'
     | '/app/'
+    | '/admin/consultations/$id'
     | '/admin/events/$id'
     | '/admin/seminars/$id'
     | '/app/events/ongoing'
@@ -723,6 +743,7 @@ export interface FileRouteTypes {
     | '/two-factor/otp'
     | '/admin'
     | '/app'
+    | '/admin/consultations/$id'
     | '/admin/events/$id'
     | '/admin/seminars/$id'
     | '/app/events/ongoing'
@@ -758,6 +779,7 @@ export interface FileRouteTypes {
     | '/two-factor_/otp'
     | '/admin/'
     | '/app/'
+    | '/admin/consultations_/$id'
     | '/admin/events_/$id'
     | '/admin/seminars_/$id'
     | '/app/events/ongoing'
@@ -833,6 +855,7 @@ export const routeTree = rootRoute
         "/admin/sponsorships",
         "/admin/users",
         "/admin/",
+        "/admin/consultations_/$id",
         "/admin/events_/$id",
         "/admin/seminars_/$id"
       ]
@@ -936,6 +959,10 @@ export const routeTree = rootRoute
     "/app/": {
       "filePath": "app/index.tsx",
       "parent": "/app"
+    },
+    "/admin/consultations_/$id": {
+      "filePath": "admin/consultations_.$id.tsx",
+      "parent": "/admin"
     },
     "/admin/events_/$id": {
       "filePath": "admin/events_.$id.tsx",

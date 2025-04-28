@@ -1,60 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Event } from "../event";
-import {
-  Clock,
-  MapPin,
-  PhoneCall,
-  Plus,
-  Presentation,
-  Store,
-} from "lucide-react";
+import { Clock, MapPin, Plus, Presentation } from "lucide-react";
 import {
   SeminarsActionDialog,
   useSeminarsAction,
 } from "@/modules/admin/seminar/components/seminars-action";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Link } from "@tanstack/react-router";
 
-export function EventDetailActivities({ event }: { event: Event }) {
+export function EventSeminars({ event }: { event: Event }) {
   const { createSeminar, setOpen, state } = useSeminarsAction(event);
   return (
     <>
       <SeminarsActionDialog setOpen={setOpen} state={state} />
       <div>
-        <h2 className="font-semibold mb-2">Activities</h2>
+        <h2 className="font-semibold mb-2">Seminars</h2>
         <ul className="grid grid-cols-5 gap-4">
           <li>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="secondary"
-                  className="w-full h-full"
-                  onClick={createSeminar}
-                >
-                  <Plus />
-                  Add New Activity
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={createSeminar}>
-                  <Presentation />
-                  Add Seminar
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Store />
-                  Add Exhibition
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <PhoneCall />
-                  Add Consultation
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button
+              variant="secondary"
+              className="w-full h-full"
+              onClick={createSeminar}
+            >
+              <Plus />
+              Add New Seminar
+            </Button>
           </li>
           {event.seminars.length === 0 ? (
             <li className="flex items-center justify-center py-10 border rounded-lg border-dashed">
