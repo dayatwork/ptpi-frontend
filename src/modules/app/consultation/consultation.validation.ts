@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export const CONSULTATION_SLOT_STATUS = {
   AVAILABLE: "AVAILABLE",
   BOOKED: "BOOKED",
@@ -9,3 +11,9 @@ export const CONSULTATION_SLOT_STATUS = {
 } as const;
 export const validSlotStatuses = Object.values(CONSULTATION_SLOT_STATUS);
 export type ValidSlotStatus = (typeof validSlotStatuses)[number];
+
+export const bookConsultationSchema = z.object({
+  slotId: z.string(),
+});
+
+export type BookConsultationInput = z.infer<typeof bookConsultationSchema>;

@@ -38,7 +38,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             <nav className="flex items-center gap-4">
               <Link
                 to="/app"
-                className="text-sm px-2 py-1 rounded hover:bg-accent"
+                className="px-2 py-1 rounded hover:bg-accent"
                 activeOptions={{ exact: true }}
                 activeProps={{ className: "text-foreground font-semibold" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
@@ -47,7 +47,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
               <Link
                 to="/app/events"
-                className="text-sm px-2 py-1 rounded hover:bg-accent"
+                className="px-2 py-1 rounded hover:bg-accent"
                 activeProps={{ className: "text-foreground font-semibold" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
               >
@@ -55,11 +55,19 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
               <Link
                 to="/app/consultation-schedule"
-                className="text-sm px-2 py-1 rounded hover:bg-accent"
+                className="px-2 py-1 rounded hover:bg-accent"
                 activeProps={{ className: "text-foreground font-semibold" }}
                 inactiveProps={{ className: "text-muted-foreground" }}
               >
                 Consultation Schedule
+              </Link>
+              <Link
+                to="/app/certificates"
+                className="px-2 py-1 rounded hover:bg-accent"
+                activeProps={{ className: "text-foreground font-semibold" }}
+                inactiveProps={{ className: "text-muted-foreground" }}
+              >
+                Certificates
               </Link>
             </nav>
           </div>

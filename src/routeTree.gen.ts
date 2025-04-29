@@ -28,6 +28,7 @@ import { Route as AppPreviousEventsImport } from './routes/app/previous-events'
 import { Route as AppExhibitionsImport } from './routes/app/exhibitions'
 import { Route as AppEventsImport } from './routes/app/events'
 import { Route as AppConsultationScheduleImport } from './routes/app/consultation-schedule'
+import { Route as AppCertificatesImport } from './routes/app/certificates'
 import { Route as AdminUsersImport } from './routes/admin/users'
 import { Route as AdminSponsorshipsImport } from './routes/admin/sponsorships'
 import { Route as AdminSeminarsImport } from './routes/admin/seminars'
@@ -156,6 +157,12 @@ const AppEventsRoute = AppEventsImport.update({
 const AppConsultationScheduleRoute = AppConsultationScheduleImport.update({
   id: '/consultation-schedule',
   path: '/consultation-schedule',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppCertificatesRoute = AppCertificatesImport.update({
+  id: '/certificates',
+  path: '/certificates',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -442,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersImport
       parentRoute: typeof AdminImport
     }
+    '/app/certificates': {
+      id: '/app/certificates'
+      path: '/certificates'
+      fullPath: '/app/certificates'
+      preLoaderRoute: typeof AppCertificatesImport
+      parentRoute: typeof AppImport
+    }
     '/app/consultation-schedule': {
       id: '/app/consultation-schedule'
       path: '/consultation-schedule'
@@ -706,6 +720,7 @@ const AppEventsRouteWithChildren = AppEventsRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppCertificatesRoute: typeof AppCertificatesRoute
   AppConsultationScheduleRoute: typeof AppConsultationScheduleRoute
   AppEventsRoute: typeof AppEventsRouteWithChildren
   AppExhibitionsRoute: typeof AppExhibitionsRoute
@@ -718,6 +733,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppCertificatesRoute: AppCertificatesRoute,
   AppConsultationScheduleRoute: AppConsultationScheduleRoute,
   AppEventsRoute: AppEventsRouteWithChildren,
   AppExhibitionsRoute: AppExhibitionsRoute,
@@ -749,6 +765,7 @@ export interface FileRoutesByFullPath {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/certificates': typeof AppCertificatesRoute
   '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/events': typeof AppEventsRouteWithChildren
   '/app/exhibitions': typeof AppExhibitionsRoute
@@ -793,6 +810,7 @@ export interface FileRoutesByTo {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/certificates': typeof AppCertificatesRoute
   '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
@@ -838,6 +856,7 @@ export interface FileRoutesById {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/certificates': typeof AppCertificatesRoute
   '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/events': typeof AppEventsRouteWithChildren
   '/app/exhibitions': typeof AppExhibitionsRoute
@@ -886,6 +905,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/certificates'
     | '/app/consultation-schedule'
     | '/app/events'
     | '/app/exhibitions'
@@ -929,6 +949,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/certificates'
     | '/app/consultation-schedule'
     | '/app/exhibitions'
     | '/app/previous-events'
@@ -972,6 +993,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/certificates'
     | '/app/consultation-schedule'
     | '/app/events'
     | '/app/exhibitions'
@@ -1074,6 +1096,7 @@ export const routeTree = rootRoute
     "/app": {
       "filePath": "app.tsx",
       "children": [
+        "/app/certificates",
         "/app/consultation-schedule",
         "/app/events",
         "/app/exhibitions",
@@ -1135,6 +1158,10 @@ export const routeTree = rootRoute
     "/admin/users": {
       "filePath": "admin/users.tsx",
       "parent": "/admin"
+    },
+    "/app/certificates": {
+      "filePath": "app/certificates.tsx",
+      "parent": "/app"
     },
     "/app/consultation-schedule": {
       "filePath": "app/consultation-schedule.tsx",
