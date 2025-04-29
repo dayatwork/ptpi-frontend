@@ -8,7 +8,9 @@ type EditIntent =
   | "mark-as-available"
   | "mark-as-not-available"
   | "mark-as-done"
-  | "mark-as-not-present";
+  | "mark-as-not-present"
+  | "start"
+  | "end";
 
 type Action =
   | "cancel"
@@ -16,7 +18,9 @@ type Action =
   | "not-present"
   | "available"
   | "not-available"
-  | "remove-participant";
+  | "remove-participant"
+  | "start"
+  | "end";
 
 type ConfirmationDetailValue = {
   message: string;
@@ -55,6 +59,18 @@ const confirmationDetail: Record<EditIntent, ConfirmationDetailValue> = {
     actionText: "Remove participant",
     message: "Are you sure to remove participant from this slot?",
     action: "remove-participant",
+  },
+  start: {
+    actionSubmitText: "Starting consultation...",
+    actionText: "Start consultation",
+    message: "Are you sure to start consultation?",
+    action: "start",
+  },
+  end: {
+    actionSubmitText: "Ending consultation...",
+    actionText: "End consultation",
+    message: "Are you sure to end consultation?",
+    action: "end",
   },
 };
 

@@ -7,6 +7,7 @@ export const CONSULTATION_SLOT_STATUS = {
   DONE: "DONE",
   NOT_PRESENT: "NOT_PRESENT",
   CANCELED: "CANCELED",
+  ONGOING: "ONGOING",
 } as const;
 export const validSlotStatuses = Object.values(CONSULTATION_SLOT_STATUS);
 export type ValidSlotStatus = (typeof validSlotStatuses)[number];

@@ -51,6 +51,18 @@ export function SeminarDetailsHeader({ title, event }: Props) {
                 </Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link
+                  to="/admin/events/$id/seminars"
+                  params={{ id: event.id }}
+                  className="flex items-center gap-2"
+                >
+                  Seminars
+                </Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
           </>
         ) : (
           <BreadcrumbItem>

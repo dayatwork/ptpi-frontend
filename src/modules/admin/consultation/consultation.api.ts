@@ -122,7 +122,9 @@ export async function editConsultationSlot({
     | "not-present"
     | "available"
     | "not-available"
-    | "remove-participant";
+    | "remove-participant"
+    | "start"
+    | "end";
 }) {
   const slot = await axios
     .post<EditConsultationSlotResponse>(

@@ -19,6 +19,7 @@ export type ConsultationSlot = {
     | "AVAILABLE"
     | "NOT_AVAILABLE"
     | "BOOKED"
+    | "ONGOING"
     | "DONE"
     | "NOT_PRESENT"
     | "CANCELED";

@@ -1,6 +1,6 @@
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import {
   ConsultationActionDialog,
   useConsultationAction,
@@ -27,8 +28,8 @@ import {
   ensureConsultationData,
   useSuspenseConsultation,
 } from "@/modules/admin/consultation/consultation.query";
-import { createFileRoute } from "@tanstack/react-router";
-import { MoreHorizontal } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { MoreHorizontal, Video } from "lucide-react";
 
 export const Route = createFileRoute("/admin/consultations_/$id")({
   component: RouteComponent,
@@ -127,6 +128,7 @@ function RouteComponent() {
                   <TableHead className="w-44">Start Time</TableHead>
                   <TableHead className="w-44">End Time</TableHead>
                   <TableHead>Participant</TableHead>
+                  <TableHead className="w-44">Room</TableHead>
                   <TableHead className="w-32">Status</TableHead>
                   <TableHead className="w-16"></TableHead>
                 </TableRow>
@@ -160,6 +162,21 @@ function RouteComponent() {
                       })}
                     </TableCell>
                     <TableCell>{slot.participantName || "-"}</TableCell>
+                    <TableCell>
+                      {(slot.status === "BOOKED" ||
+                        slot.status === "ONGOING") && (
+                        <Link
+                          to="/admin/consultations/$id/room/$slotId"
+                          params={{ id: consultation.id, slotId: slot.id }}
+                          className={cn(
+                            buttonVariants({ variant: "outline" }),
+                            "h-8"
+                          )}
+                        >
+                          Go to room <Video />
+                        </Link>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <SlotStatusBadge status={slot.status} />
                     </TableCell>

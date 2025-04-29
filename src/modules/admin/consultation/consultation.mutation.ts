@@ -118,6 +118,8 @@ export const useEditConsultationSlotMutation = (
       if (action === "not-present") message = "Slot marked as 'NOT_PRESENT'";
       if (action === "remove-participant")
         message = "Participant remove from slot";
+      if (action === "start") message = "Consultations started!";
+      if (action === "end") message = "Consultations ended!";
       toast.success(message);
       console.log({ data });
       invalidateConsultationQuery({ id: data.consultationId });

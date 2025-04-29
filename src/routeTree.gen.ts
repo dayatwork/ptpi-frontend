@@ -27,6 +27,7 @@ import { Route as AppSeminarsImport } from './routes/app/seminars'
 import { Route as AppPreviousEventsImport } from './routes/app/previous-events'
 import { Route as AppExhibitionsImport } from './routes/app/exhibitions'
 import { Route as AppEventsImport } from './routes/app/events'
+import { Route as AppConsultationScheduleImport } from './routes/app/consultation-schedule'
 import { Route as AdminUsersImport } from './routes/admin/users'
 import { Route as AdminSponsorshipsImport } from './routes/admin/sponsorships'
 import { Route as AdminSeminarsImport } from './routes/admin/seminars'
@@ -44,7 +45,15 @@ import { Route as AppEventsOngoingImport } from './routes/app/events.ongoing'
 import { Route as AdminSeminarsIdImport } from './routes/admin/seminars_.$id'
 import { Route as AdminEventsIdImport } from './routes/admin/events_.$id'
 import { Route as AdminConsultationsIdImport } from './routes/admin/consultations_.$id'
+import { Route as AdminEventsIdIndexImport } from './routes/admin/events_.$id.index'
 import { Route as AppSeminarsIdRoomImport } from './routes/app_.seminars_.$id_.room'
+import { Route as AppConsultationScheduleIdRoomImport } from './routes/app/consultation-schedule_.$id.room'
+import { Route as AdminEventsIdSponsorshipsImport } from './routes/admin/events_.$id.sponsorships'
+import { Route as AdminEventsIdSeminarsImport } from './routes/admin/events_.$id.seminars'
+import { Route as AdminEventsIdOverviewImport } from './routes/admin/events_.$id.overview'
+import { Route as AdminEventsIdExhibitionImport } from './routes/admin/events_.$id.exhibition'
+import { Route as AdminEventsIdConsultationsImport } from './routes/admin/events_.$id.consultations'
+import { Route as AdminConsultationsIdRoomSlotIdImport } from './routes/admin/consultations_.$id_.room.$slotId'
 
 // Create/Update Routes
 
@@ -141,6 +150,12 @@ const AppExhibitionsRoute = AppExhibitionsImport.update({
 const AppEventsRoute = AppEventsImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => AppRoute,
+} as any)
+
+const AppConsultationScheduleRoute = AppConsultationScheduleImport.update({
+  id: '/consultation-schedule',
+  path: '/consultation-schedule',
   getParentRoute: () => AppRoute,
 } as any)
 
@@ -246,11 +261,63 @@ const AdminConsultationsIdRoute = AdminConsultationsIdImport.update({
   getParentRoute: () => AdminRoute,
 } as any)
 
+const AdminEventsIdIndexRoute = AdminEventsIdIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminEventsIdRoute,
+} as any)
+
 const AppSeminarsIdRoomRoute = AppSeminarsIdRoomImport.update({
   id: '/app_/seminars_/$id_/room',
   path: '/app/seminars/$id/room',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AppConsultationScheduleIdRoomRoute =
+  AppConsultationScheduleIdRoomImport.update({
+    id: '/consultation-schedule_/$id/room',
+    path: '/consultation-schedule/$id/room',
+    getParentRoute: () => AppRoute,
+  } as any)
+
+const AdminEventsIdSponsorshipsRoute = AdminEventsIdSponsorshipsImport.update({
+  id: '/sponsorships',
+  path: '/sponsorships',
+  getParentRoute: () => AdminEventsIdRoute,
+} as any)
+
+const AdminEventsIdSeminarsRoute = AdminEventsIdSeminarsImport.update({
+  id: '/seminars',
+  path: '/seminars',
+  getParentRoute: () => AdminEventsIdRoute,
+} as any)
+
+const AdminEventsIdOverviewRoute = AdminEventsIdOverviewImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AdminEventsIdRoute,
+} as any)
+
+const AdminEventsIdExhibitionRoute = AdminEventsIdExhibitionImport.update({
+  id: '/exhibition',
+  path: '/exhibition',
+  getParentRoute: () => AdminEventsIdRoute,
+} as any)
+
+const AdminEventsIdConsultationsRoute = AdminEventsIdConsultationsImport.update(
+  {
+    id: '/consultations',
+    path: '/consultations',
+    getParentRoute: () => AdminEventsIdRoute,
+  } as any,
+)
+
+const AdminConsultationsIdRoomSlotIdRoute =
+  AdminConsultationsIdRoomSlotIdImport.update({
+    id: '/consultations_/$id_/room/$slotId',
+    path: '/consultations/$id/room/$slotId',
+    getParentRoute: () => AdminRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -375,6 +442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersImport
       parentRoute: typeof AdminImport
     }
+    '/app/consultation-schedule': {
+      id: '/app/consultation-schedule'
+      path: '/consultation-schedule'
+      fullPath: '/app/consultation-schedule'
+      preLoaderRoute: typeof AppConsultationScheduleImport
+      parentRoute: typeof AppImport
+    }
     '/app/events': {
       id: '/app/events'
       path: '/events'
@@ -487,6 +561,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppEventsIndexImport
       parentRoute: typeof AppEventsImport
     }
+    '/admin/events_/$id/consultations': {
+      id: '/admin/events_/$id/consultations'
+      path: '/consultations'
+      fullPath: '/admin/events/$id/consultations'
+      preLoaderRoute: typeof AdminEventsIdConsultationsImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/admin/events_/$id/exhibition': {
+      id: '/admin/events_/$id/exhibition'
+      path: '/exhibition'
+      fullPath: '/admin/events/$id/exhibition'
+      preLoaderRoute: typeof AdminEventsIdExhibitionImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/admin/events_/$id/overview': {
+      id: '/admin/events_/$id/overview'
+      path: '/overview'
+      fullPath: '/admin/events/$id/overview'
+      preLoaderRoute: typeof AdminEventsIdOverviewImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/admin/events_/$id/seminars': {
+      id: '/admin/events_/$id/seminars'
+      path: '/seminars'
+      fullPath: '/admin/events/$id/seminars'
+      preLoaderRoute: typeof AdminEventsIdSeminarsImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/admin/events_/$id/sponsorships': {
+      id: '/admin/events_/$id/sponsorships'
+      path: '/sponsorships'
+      fullPath: '/admin/events/$id/sponsorships'
+      preLoaderRoute: typeof AdminEventsIdSponsorshipsImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/app/consultation-schedule_/$id/room': {
+      id: '/app/consultation-schedule_/$id/room'
+      path: '/consultation-schedule/$id/room'
+      fullPath: '/app/consultation-schedule/$id/room'
+      preLoaderRoute: typeof AppConsultationScheduleIdRoomImport
+      parentRoute: typeof AppImport
+    }
     '/app_/seminars_/$id_/room': {
       id: '/app_/seminars_/$id_/room'
       path: '/app/seminars/$id/room'
@@ -494,10 +610,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSeminarsIdRoomImport
       parentRoute: typeof rootRoute
     }
+    '/admin/events_/$id/': {
+      id: '/admin/events_/$id/'
+      path: '/'
+      fullPath: '/admin/events/$id/'
+      preLoaderRoute: typeof AdminEventsIdIndexImport
+      parentRoute: typeof AdminEventsIdImport
+    }
+    '/admin/consultations_/$id_/room/$slotId': {
+      id: '/admin/consultations_/$id_/room/$slotId'
+      path: '/consultations/$id/room/$slotId'
+      fullPath: '/admin/consultations/$id/room/$slotId'
+      preLoaderRoute: typeof AdminConsultationsIdRoomSlotIdImport
+      parentRoute: typeof AdminImport
+    }
   }
 }
 
 // Create and export the route tree
+
+interface AdminEventsIdRouteChildren {
+  AdminEventsIdConsultationsRoute: typeof AdminEventsIdConsultationsRoute
+  AdminEventsIdExhibitionRoute: typeof AdminEventsIdExhibitionRoute
+  AdminEventsIdOverviewRoute: typeof AdminEventsIdOverviewRoute
+  AdminEventsIdSeminarsRoute: typeof AdminEventsIdSeminarsRoute
+  AdminEventsIdSponsorshipsRoute: typeof AdminEventsIdSponsorshipsRoute
+  AdminEventsIdIndexRoute: typeof AdminEventsIdIndexRoute
+}
+
+const AdminEventsIdRouteChildren: AdminEventsIdRouteChildren = {
+  AdminEventsIdConsultationsRoute: AdminEventsIdConsultationsRoute,
+  AdminEventsIdExhibitionRoute: AdminEventsIdExhibitionRoute,
+  AdminEventsIdOverviewRoute: AdminEventsIdOverviewRoute,
+  AdminEventsIdSeminarsRoute: AdminEventsIdSeminarsRoute,
+  AdminEventsIdSponsorshipsRoute: AdminEventsIdSponsorshipsRoute,
+  AdminEventsIdIndexRoute: AdminEventsIdIndexRoute,
+}
+
+const AdminEventsIdRouteWithChildren = AdminEventsIdRoute._addFileChildren(
+  AdminEventsIdRouteChildren,
+)
 
 interface AdminRouteChildren {
   AdminConsultationsRoute: typeof AdminConsultationsRoute
@@ -511,8 +663,9 @@ interface AdminRouteChildren {
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminConsultationsIdRoute: typeof AdminConsultationsIdRoute
-  AdminEventsIdRoute: typeof AdminEventsIdRoute
+  AdminEventsIdRoute: typeof AdminEventsIdRouteWithChildren
   AdminSeminarsIdRoute: typeof AdminSeminarsIdRoute
+  AdminConsultationsIdRoomSlotIdRoute: typeof AdminConsultationsIdRoomSlotIdRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
@@ -527,8 +680,9 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminConsultationsIdRoute: AdminConsultationsIdRoute,
-  AdminEventsIdRoute: AdminEventsIdRoute,
+  AdminEventsIdRoute: AdminEventsIdRouteWithChildren,
   AdminSeminarsIdRoute: AdminSeminarsIdRoute,
+  AdminConsultationsIdRoomSlotIdRoute: AdminConsultationsIdRoomSlotIdRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -552,6 +706,7 @@ const AppEventsRouteWithChildren = AppEventsRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
+  AppConsultationScheduleRoute: typeof AppConsultationScheduleRoute
   AppEventsRoute: typeof AppEventsRouteWithChildren
   AppExhibitionsRoute: typeof AppExhibitionsRoute
   AppPreviousEventsRoute: typeof AppPreviousEventsRoute
@@ -559,9 +714,11 @@ interface AppRouteChildren {
   AppUpcomingEventsRoute: typeof AppUpcomingEventsRoute
   AppIndexRoute: typeof AppIndexRoute
   AppEventsIdRoute: typeof AppEventsIdRoute
+  AppConsultationScheduleIdRoomRoute: typeof AppConsultationScheduleIdRoomRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppConsultationScheduleRoute: AppConsultationScheduleRoute,
   AppEventsRoute: AppEventsRouteWithChildren,
   AppExhibitionsRoute: AppExhibitionsRoute,
   AppPreviousEventsRoute: AppPreviousEventsRoute,
@@ -569,6 +726,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppUpcomingEventsRoute: AppUpcomingEventsRoute,
   AppIndexRoute: AppIndexRoute,
   AppEventsIdRoute: AppEventsIdRoute,
+  AppConsultationScheduleIdRoomRoute: AppConsultationScheduleIdRoomRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -591,6 +749,7 @@ export interface FileRoutesByFullPath {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/events': typeof AppEventsRouteWithChildren
   '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
@@ -600,14 +759,22 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/admin/consultations/$id': typeof AdminConsultationsIdRoute
-  '/admin/events/$id': typeof AdminEventsIdRoute
+  '/admin/events/$id': typeof AdminEventsIdRouteWithChildren
   '/admin/seminars/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
   '/app/events/previous': typeof AppEventsPreviousRoute
   '/app/events/upcoming': typeof AppEventsUpcomingRoute
   '/app/events/$id': typeof AppEventsIdRoute
   '/app/events/': typeof AppEventsIndexRoute
+  '/admin/events/$id/consultations': typeof AdminEventsIdConsultationsRoute
+  '/admin/events/$id/exhibition': typeof AdminEventsIdExhibitionRoute
+  '/admin/events/$id/overview': typeof AdminEventsIdOverviewRoute
+  '/admin/events/$id/seminars': typeof AdminEventsIdSeminarsRoute
+  '/admin/events/$id/sponsorships': typeof AdminEventsIdSponsorshipsRoute
+  '/app/consultation-schedule/$id/room': typeof AppConsultationScheduleIdRoomRoute
   '/app/seminars/$id/room': typeof AppSeminarsIdRoomRoute
+  '/admin/events/$id/': typeof AdminEventsIdIndexRoute
+  '/admin/consultations/$id/room/$slotId': typeof AdminConsultationsIdRoomSlotIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -626,6 +793,7 @@ export interface FileRoutesByTo {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
   '/app/seminars': typeof AppSeminarsRoute
@@ -634,14 +802,21 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/app': typeof AppIndexRoute
   '/admin/consultations/$id': typeof AdminConsultationsIdRoute
-  '/admin/events/$id': typeof AdminEventsIdRoute
   '/admin/seminars/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
   '/app/events/previous': typeof AppEventsPreviousRoute
   '/app/events/upcoming': typeof AppEventsUpcomingRoute
   '/app/events/$id': typeof AppEventsIdRoute
   '/app/events': typeof AppEventsIndexRoute
+  '/admin/events/$id/consultations': typeof AdminEventsIdConsultationsRoute
+  '/admin/events/$id/exhibition': typeof AdminEventsIdExhibitionRoute
+  '/admin/events/$id/overview': typeof AdminEventsIdOverviewRoute
+  '/admin/events/$id/seminars': typeof AdminEventsIdSeminarsRoute
+  '/admin/events/$id/sponsorships': typeof AdminEventsIdSponsorshipsRoute
+  '/app/consultation-schedule/$id/room': typeof AppConsultationScheduleIdRoomRoute
   '/app/seminars/$id/room': typeof AppSeminarsIdRoomRoute
+  '/admin/events/$id': typeof AdminEventsIdIndexRoute
+  '/admin/consultations/$id/room/$slotId': typeof AdminConsultationsIdRoomSlotIdRoute
 }
 
 export interface FileRoutesById {
@@ -663,6 +838,7 @@ export interface FileRoutesById {
   '/admin/seminars': typeof AdminSeminarsRoute
   '/admin/sponsorships': typeof AdminSponsorshipsRoute
   '/admin/users': typeof AdminUsersRoute
+  '/app/consultation-schedule': typeof AppConsultationScheduleRoute
   '/app/events': typeof AppEventsRouteWithChildren
   '/app/exhibitions': typeof AppExhibitionsRoute
   '/app/previous-events': typeof AppPreviousEventsRoute
@@ -672,14 +848,22 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/app/': typeof AppIndexRoute
   '/admin/consultations_/$id': typeof AdminConsultationsIdRoute
-  '/admin/events_/$id': typeof AdminEventsIdRoute
+  '/admin/events_/$id': typeof AdminEventsIdRouteWithChildren
   '/admin/seminars_/$id': typeof AdminSeminarsIdRoute
   '/app/events/ongoing': typeof AppEventsOngoingRoute
   '/app/events/previous': typeof AppEventsPreviousRoute
   '/app/events/upcoming': typeof AppEventsUpcomingRoute
   '/app/events_/$id': typeof AppEventsIdRoute
   '/app/events/': typeof AppEventsIndexRoute
+  '/admin/events_/$id/consultations': typeof AdminEventsIdConsultationsRoute
+  '/admin/events_/$id/exhibition': typeof AdminEventsIdExhibitionRoute
+  '/admin/events_/$id/overview': typeof AdminEventsIdOverviewRoute
+  '/admin/events_/$id/seminars': typeof AdminEventsIdSeminarsRoute
+  '/admin/events_/$id/sponsorships': typeof AdminEventsIdSponsorshipsRoute
+  '/app/consultation-schedule_/$id/room': typeof AppConsultationScheduleIdRoomRoute
   '/app_/seminars_/$id_/room': typeof AppSeminarsIdRoomRoute
+  '/admin/events_/$id/': typeof AdminEventsIdIndexRoute
+  '/admin/consultations_/$id_/room/$slotId': typeof AdminConsultationsIdRoomSlotIdRoute
 }
 
 export interface FileRouteTypes {
@@ -702,6 +886,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/consultation-schedule'
     | '/app/events'
     | '/app/exhibitions'
     | '/app/previous-events'
@@ -718,7 +903,15 @@ export interface FileRouteTypes {
     | '/app/events/upcoming'
     | '/app/events/$id'
     | '/app/events/'
+    | '/admin/events/$id/consultations'
+    | '/admin/events/$id/exhibition'
+    | '/admin/events/$id/overview'
+    | '/admin/events/$id/seminars'
+    | '/admin/events/$id/sponsorships'
+    | '/app/consultation-schedule/$id/room'
     | '/app/seminars/$id/room'
+    | '/admin/events/$id/'
+    | '/admin/consultations/$id/room/$slotId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -736,6 +929,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/consultation-schedule'
     | '/app/exhibitions'
     | '/app/previous-events'
     | '/app/seminars'
@@ -744,14 +938,21 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/admin/consultations/$id'
-    | '/admin/events/$id'
     | '/admin/seminars/$id'
     | '/app/events/ongoing'
     | '/app/events/previous'
     | '/app/events/upcoming'
     | '/app/events/$id'
     | '/app/events'
+    | '/admin/events/$id/consultations'
+    | '/admin/events/$id/exhibition'
+    | '/admin/events/$id/overview'
+    | '/admin/events/$id/seminars'
+    | '/admin/events/$id/sponsorships'
+    | '/app/consultation-schedule/$id/room'
     | '/app/seminars/$id/room'
+    | '/admin/events/$id'
+    | '/admin/consultations/$id/room/$slotId'
   id:
     | '__root__'
     | '/'
@@ -771,6 +972,7 @@ export interface FileRouteTypes {
     | '/admin/seminars'
     | '/admin/sponsorships'
     | '/admin/users'
+    | '/app/consultation-schedule'
     | '/app/events'
     | '/app/exhibitions'
     | '/app/previous-events'
@@ -787,7 +989,15 @@ export interface FileRouteTypes {
     | '/app/events/upcoming'
     | '/app/events_/$id'
     | '/app/events/'
+    | '/admin/events_/$id/consultations'
+    | '/admin/events_/$id/exhibition'
+    | '/admin/events_/$id/overview'
+    | '/admin/events_/$id/seminars'
+    | '/admin/events_/$id/sponsorships'
+    | '/app/consultation-schedule_/$id/room'
     | '/app_/seminars_/$id_/room'
+    | '/admin/events_/$id/'
+    | '/admin/consultations_/$id_/room/$slotId'
   fileRoutesById: FileRoutesById
 }
 
@@ -857,19 +1067,22 @@ export const routeTree = rootRoute
         "/admin/",
         "/admin/consultations_/$id",
         "/admin/events_/$id",
-        "/admin/seminars_/$id"
+        "/admin/seminars_/$id",
+        "/admin/consultations_/$id_/room/$slotId"
       ]
     },
     "/app": {
       "filePath": "app.tsx",
       "children": [
+        "/app/consultation-schedule",
         "/app/events",
         "/app/exhibitions",
         "/app/previous-events",
         "/app/seminars",
         "/app/upcoming-events",
         "/app/",
-        "/app/events_/$id"
+        "/app/events_/$id",
+        "/app/consultation-schedule_/$id/room"
       ]
     },
     "/forget-password": {
@@ -923,6 +1136,10 @@ export const routeTree = rootRoute
       "filePath": "admin/users.tsx",
       "parent": "/admin"
     },
+    "/app/consultation-schedule": {
+      "filePath": "app/consultation-schedule.tsx",
+      "parent": "/app"
+    },
     "/app/events": {
       "filePath": "app/events.tsx",
       "parent": "/app",
@@ -966,7 +1183,15 @@ export const routeTree = rootRoute
     },
     "/admin/events_/$id": {
       "filePath": "admin/events_.$id.tsx",
-      "parent": "/admin"
+      "parent": "/admin",
+      "children": [
+        "/admin/events_/$id/consultations",
+        "/admin/events_/$id/exhibition",
+        "/admin/events_/$id/overview",
+        "/admin/events_/$id/seminars",
+        "/admin/events_/$id/sponsorships",
+        "/admin/events_/$id/"
+      ]
     },
     "/admin/seminars_/$id": {
       "filePath": "admin/seminars_.$id.tsx",
@@ -992,8 +1217,40 @@ export const routeTree = rootRoute
       "filePath": "app/events.index.tsx",
       "parent": "/app/events"
     },
+    "/admin/events_/$id/consultations": {
+      "filePath": "admin/events_.$id.consultations.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/admin/events_/$id/exhibition": {
+      "filePath": "admin/events_.$id.exhibition.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/admin/events_/$id/overview": {
+      "filePath": "admin/events_.$id.overview.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/admin/events_/$id/seminars": {
+      "filePath": "admin/events_.$id.seminars.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/admin/events_/$id/sponsorships": {
+      "filePath": "admin/events_.$id.sponsorships.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/app/consultation-schedule_/$id/room": {
+      "filePath": "app/consultation-schedule_.$id.room.tsx",
+      "parent": "/app"
+    },
     "/app_/seminars_/$id_/room": {
       "filePath": "app_.seminars_.$id_.room.tsx"
+    },
+    "/admin/events_/$id/": {
+      "filePath": "admin/events_.$id.index.tsx",
+      "parent": "/admin/events_/$id"
+    },
+    "/admin/consultations_/$id_/room/$slotId": {
+      "filePath": "admin/consultations_.$id_.room.$slotId.tsx",
+      "parent": "/admin"
     }
   }
 }

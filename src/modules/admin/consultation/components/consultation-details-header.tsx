@@ -53,7 +53,7 @@ export function ConsultationDetailsHeader({ title, event }: Props) {
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link
-              to="/admin/events/$id"
+              to="/admin/events/$id/consultations"
               params={{ id: event.id }}
               className="flex items-center gap-2"
             >

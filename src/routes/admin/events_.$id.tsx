@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import {
   CalendarDays,
   Handshake,
@@ -10,16 +10,10 @@ import {
   Store,
 } from "lucide-react";
 import { AdminContainer } from "@/components/layouts/admin/admin-container";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EventSeminars } from "@/modules/admin/event/components/event-detail-seminars";
 import { EventDetailHeader } from "@/modules/admin/event/components/event-detail-header";
-import { EventDetailOverview } from "@/modules/admin/event/components/event-detail-overview";
 import { FormatBadge } from "@/modules/admin/event/components/format-badge";
 import { StatusBadge } from "@/modules/admin/event/components/status-badge";
 import { ensureEventData, useEvent } from "@/modules/admin/event/event.query";
-import { EventConsultations } from "@/modules/admin/event/components/event-detail-consultations";
 
 export const Route = createFileRoute("/admin/events_/$id")({
   component: RouteComponent,
@@ -32,7 +26,6 @@ function RouteComponent() {
   const { data } = useEvent({ id: params.id });
   return (
     <>
-      <Outlet />
       <AdminContainer header={<EventDetailHeader title={data.title} />}>
         <div className="flex items-center justify-between gap-4 mb-3">
           <div className="space-y-1 w-full">
@@ -88,84 +81,74 @@ function RouteComponent() {
             </dl>
           </div>
         </div>
-        <Tabs defaultValue="seminars">
-          <ScrollArea>
-            <TabsList className="text-foreground mb-3 h-auto gap-2 rounded-none border-b bg-transparent px-0 py-1 w-full justify-start">
-              <TabsTrigger
-                value="overview"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                <HouseIcon
-                  className="-ms-0.5 me-1.5 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Overview
-              </TabsTrigger>
-              <TabsTrigger
-                value="seminars"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                <Presentation
-                  className="-ms-0.5 me-1.5 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Seminars
-              </TabsTrigger>
-              <TabsTrigger
-                value="consultations"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                <PhoneIcon
-                  className="-ms-0.5 me-1.5 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Consultations
-              </TabsTrigger>
-              <TabsTrigger
-                value="exhibition"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                <Store
-                  className="-ms-0.5 me-1.5 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Exhibition
-              </TabsTrigger>
-
-              <TabsTrigger
-                value="sponsorships"
-                className="hover:bg-accent hover:text-foreground data-[state=active]:after:bg-primary data-[state=active]:hover:bg-accent relative after:absolute after:inset-x-0 after:bottom-0 after:-mb-1 after:h-0.5 data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                <Handshake
-                  className="-ms-0.5 me-1.5 opacity-60"
-                  size={16}
-                  aria-hidden="true"
-                />
-                Sponsorships
-                <Badge className="ms-1.5">2</Badge>
-              </TabsTrigger>
-            </TabsList>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-          <TabsContent value="overview">
-            <EventDetailOverview event={data} />
-          </TabsContent>
-          <TabsContent value="seminars">
-            <EventSeminars event={data} />
-          </TabsContent>
-          <TabsContent value="consultations">
-            <EventConsultations event={data} />
-          </TabsContent>
-          <TabsContent value="exhibition">
-            <EventConsultations event={data} />
-          </TabsContent>
-
-          <TabsContent value="sponsorships"></TabsContent>
-        </Tabs>
+        <div className="flex items-center mt-6 border-b mb-4">
+          <Link
+            to="/admin/events/$id/overview"
+            params={{ id: data.id }}
+            className="flex items-center gap-0.5 font-semibold text-sm py-1.5 px-3 border-b-2"
+            activeProps={{ className: "border-primary text-primary" }}
+          >
+            <HouseIcon
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Overview
+          </Link>
+          <Link
+            to="/admin/events/$id/seminars"
+            params={{ id: data.id }}
+            className="flex items-center gap-0.5 font-semibold text-sm py-1.5 px-3 border-b-2"
+            activeProps={{ className: "border-primary text-primary" }}
+          >
+            <Presentation
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Seminars
+          </Link>
+          <Link
+            to="/admin/events/$id/consultations"
+            params={{ id: data.id }}
+            className="flex items-center gap-0.5 font-semibold text-sm py-1.5 px-3 border-b-2"
+            activeProps={{ className: "border-primary text-primary" }}
+          >
+            <PhoneIcon
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Consultations
+          </Link>
+          <Link
+            to="/admin/events/$id/exhibition"
+            params={{ id: data.id }}
+            className="flex items-center gap-0.5 font-semibold text-sm py-1.5 px-3 border-b-2"
+            activeProps={{ className: "border-primary text-primary" }}
+          >
+            <Store
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Exhibition
+          </Link>
+          <Link
+            to="/admin/events/$id/sponsorships"
+            params={{ id: data.id }}
+            className="flex items-center gap-0.5 font-semibold text-sm py-1.5 px-3 border-b-2"
+            activeProps={{ className: "border-primary text-primary" }}
+          >
+            <Handshake
+              className="-ms-0.5 me-1.5 opacity-60"
+              size={16}
+              aria-hidden="true"
+            />
+            Sponsorships
+          </Link>
+        </div>
+        <Outlet />
       </AdminContainer>
     </>
   );

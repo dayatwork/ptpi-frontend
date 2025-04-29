@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PenSquare, PlusIcon } from "lucide-react";
+import { PenSquare, Play, PlusIcon } from "lucide-react";
 import { CreateConsultationSlotForm } from "./forms/create-consultation-slot-form";
 import { EditConsultationSlotForm } from "./forms/edit-consultation-slot-form";
 import { BookConsultationForm } from "./forms/book-consultation-slot-form";
@@ -42,9 +42,10 @@ export function ConsultationActionDialog({
             {intent === "create" && (
               <PlusIcon className="opacity-80" size={16} />
             )}
-            {intent !== "book" && intent !== "create" && (
+            {intent !== "book" && intent !== "create" && intent !== "start" && (
               <PenSquare className="opacity-80" size={16} />
             )}
+            {intent === "start" && <Play className="opacity-80" size={16} />}
           </div>
           <DialogHeader>
             <DialogTitle className="text-left">
@@ -56,6 +57,9 @@ export function ConsultationActionDialog({
               {intent === "mark-as-done" && "Mark Slot as Done"}
               {intent === "mark-as-not-present" && "Mark Slot as Not Present"}
               {intent === "remove-participant" && "Remove Participant"}
+              {intent === "remove-participant" && "Remove Participant"}
+              {intent === "start" && "Start Consultation"}
+              {intent === "end" && "End Consultation"}
             </DialogTitle>
             <DialogDescription className="text-left">
               {intent === "create" && "Create Consultation Slot"}
@@ -66,6 +70,8 @@ export function ConsultationActionDialog({
               {intent === "mark-as-done" && "Mark Slot as Done"}
               {intent === "mark-as-not-present" && "Mark Slot as Not Present"}
               {intent === "remove-participant" && "Remove Participant"}
+              {intent === "start" && "Start Consultation"}
+              {intent === "end" && "End Consultation"}
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -105,6 +111,8 @@ type State = {
     | "mark-as-done"
     | "mark-as-not-present"
     | "remove-participant"
+    | "start"
+    | "end"
     | null;
   selectedSlot: ConsultationSlot | null;
 };
@@ -117,6 +125,8 @@ type Action =
   | { type: "DONE"; payload: { selectedSlot: ConsultationSlot } }
   | { type: "NOT_PRESENT"; payload: { selectedSlot: ConsultationSlot } }
   | { type: "REMOVE_PARTICIPANT"; payload: { selectedSlot: ConsultationSlot } }
+  | { type: "START"; payload: { selectedSlot: ConsultationSlot } }
+  | { type: "END"; payload: { selectedSlot: ConsultationSlot } }
   | { type: "CLOSE" }
   | { type: "OPEN" };
 
@@ -171,6 +181,20 @@ const reducer = (state: State, action: Action): State => {
         selectedSlot: action.payload.selectedSlot,
         open: true,
       };
+    case "START":
+      return {
+        ...state,
+        intent: "start",
+        selectedSlot: action.payload.selectedSlot,
+        open: true,
+      };
+    case "END":
+      return {
+        ...state,
+        intent: "end",
+        selectedSlot: action.payload.selectedSlot,
+        open: true,
+      };
     case "CLOSE":
       return {
         ...state,
@@ -217,6 +241,12 @@ export const useConsultationAction = () => {
   const removeSlotParticipant = (slot: ConsultationSlot) => {
     dispatch({ type: "REMOVE_PARTICIPANT", payload: { selectedSlot: slot } });
   };
+  const start = (slot: ConsultationSlot) => {
+    dispatch({ type: "START", payload: { selectedSlot: slot } });
+  };
+  const end = (slot: ConsultationSlot) => {
+    dispatch({ type: "END", payload: { selectedSlot: slot } });
+  };
   const setOpen = (open: boolean) => {
     if (open) {
       dispatch({ type: "CLOSE" });
@@ -234,6 +264,8 @@ export const useConsultationAction = () => {
     markSlotAsDone,
     markSlotAsNotPresent,
     removeSlotParticipant,
+    start,
+    end,
     setOpen,
   };
 };
